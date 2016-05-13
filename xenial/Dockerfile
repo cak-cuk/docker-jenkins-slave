@@ -16,7 +16,7 @@ RUN apt-get update &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # Set user jenkins to the image
-RUN adduser --quiet  --home /home/jenkins jenkins \
+RUN adduser --quiet --disabled-password --gecos jenkins \
     && echo "jenkins:jenkins" | chpasswd \
     && echo 'jenkins ALL=NOPASSWD: ALL' >> /etc/sudoers
 
