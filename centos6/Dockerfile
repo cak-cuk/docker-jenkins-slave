@@ -1,33 +1,72 @@
-# This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node.
-# It is based on instructions from https://wiki.jenkins-ci.org/display/JENKINS/Docker+Plugin and Dockerfile 
-# from https://hub.docker.com/r/evarga/jenkins-slave/
+# base image
+FROM centos:centos6
 
-FROM centos:6
-MAINTAINER Mahyuddin Susanto <udienz@gmail.com>
+MAINTAINER Mahyuddin Susanto <mahyuddin@wowrack.com>
+#Below is original maintainer 
+#MAINTAINER shayashibara <meikyowise@gmail.com>
 
-# Install a basic SSH server GIT, UNZIP, LSOF and JDK 7
-RUN yum install --nogpg -y sudo epel-release openssh-server git unzip lsof java-1.7.0-openjdk-headless && yum clean all
-# update sshd settings, create jenkins user, set jenkins user pw, generate ssh keys
-RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd \
-    && mkdir -p /var/run/sshd \
-    && useradd -u 1000 -m --home-dir /home/jenkins -s /bin/bash jenkins \
-    && echo "jenkins:jenkins" | chpasswd
+ 
+# Install Packages
+RUN yum update -y
+RUN rpm -ivh http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+RUN yum install --nogpg -y passwd openssh openssh-server openssh-clients sudo python-devel python-pip java-1.7.0-openjdk wget
+#RUN yum groupinstall -y "Development Tools"
 
-# Setup sudoers
-RUN echo "Defaults:jenkins !requiretty" >> /etc/sudoers \
-	&& echo 'jenkins ALL=NOPASSWD: ALL' > /etc/sudoers.d/jenkins
-	#&& echo 'jenkins ALL=NOPASSWD: ALL' >> /etc/sudoers
+# Install supervisor
+RUN pip install supervisor
+RUN mkdir /etc/supervisord.d && mkdir /var/log/supervisor
+ADD supervisord.conf /etc/supervisord.conf
+ADD sshd.conf /etc/supervisord.d/sshd.conf
 
-RUN mkdir ~jenkins/.ssh && chmod 700 ~jenkins/.ssh \
- && echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDF9I3Zhl0oY1c0V7+GGMXEfQ0LzKQoxb9yKyGp2z0YgAD2KvzLmPGgFHBcVmut/QtW4URHUzPWpBPQS/ZxJlmHiKQxIJZxV3w8QT2unc2oQ8ykTSUrZo8suOGPyaa2LVNWn1pP3tIKC9Aerg+5mm8UIv5aYwnQssItVuNhlQQfRGsl/rTcgzJJLucoB4I2tBx+rQcoEqv1G2FNJmfVj96O4NV0oR2FSBiE3eoLX8bu4M7ugiYiEimDvvxG1fKAWbjdNxfT+FNqhOeBfsHW8vywVhj5VlB9koDvHkGZpeIKNyNdfrfSzYHeKv+XMLP05gJ1twXIBDZ0zNJYuAo6qOzd jenkins_rsa" > ~jenkins/.ssh/authorized_keys \
- && echo "ssh-dss AAAAB3NzaC1kc3MAAACBAOlRjhFmkkdzznnm4B0hy5dY/YWDUEX1AiAkeeS1ZSfMHF8wGeQ6LN66SN6ulxouDOZ7cgBwF6bYyWPZh95oSj90h4m6uNuX6alq/PrUodYxZ7+Qcm259gQEi0SmBcYPoTmBub6FOK+Rq/ehI9jJuLK5x7M3V+hYuBCOaTNhDOn3AAAAFQDgy/8/OFgfVBQI0Sa/ZZLwy1uoZwAAAIB3VokK1EcL4naE6iUl5In76TrJ9DNOYPZq9hH4UFr8djREIMHaUs7PynGHWKJofyb/K/2EQHHqXpGk4LUL8ntx30R2ZGeb6Qcx/qpFIxiYGk2TZdLO0tH9UpsqSQX63MA03ER52JWxAoUkBIm6/X3CwubhpAhoWUuXYf/OcUU64AAAAIBKey9L8TozLbpYMDyflg3jrV1CyNW1fjUCRyXief0XGmaGJ75JIUsCpIbbvoMi7TXiY+LtTBeSAKlo7AwB2DB+N2d2Kzq8mY1QNm6NMqKj60V8DULbg6C28+wkBF8oBSvNztw3d+SUtLnVtTbN1pA2VmR2naLx3tEaUjN4HF8VMA==" >> ~jenkins/.ssh/authorized_keys \
- && echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDO3nNoPVVbx2ZtLZ/V9Bu4VleQ5XKkFq7Pg+9Pd8i/xE1hUEzsT7lh7JHkueqUihWEWzGEv7lGeA0NWXvvNpJUn1WpTFJjPICQBX3EXFBvOIR3GpV5xLsiLaq8UVMj1BIzzuiQZzCbV7+3v6MGFC779DgxC2RKLXdCz/LhxPrawRS0JJLOAdO/tPXpToDgbCqtf6BVSN4PKsbF/+RrlEa7KjDL8si2TcNmPFFuZ/qbIjqNpc8jN6GtpVofAjXYnfS2cIjoJsMbmH2GqwtgwAF0KzHGInuK92esD7/gnmZrK1meJHmu66K8HzKnu1KPMIvQKWB1oDo3riEisnVxQQW7 jenkins@jenkins" >> ~jenkins/.ssh/authorized_keys \
- && chown jenkins.jenkins ~jenkins/.ssh/ -R \
- && chmod 600 ~jenkins/.ssh/authorized_keys
+# Add user jenkins to the image
+RUN adduser jenkins
 
-RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
-RUN sed -ri 's/#UsePAM no/UsePAM no/g' /etc/ssh/sshd_config
+# Make jenkins user require no tty
+RUN echo "Defaults:jenkins !requiretty" >> /etc/sudoers
 
-# Standard SSH port
-EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
+# Add user jenkins to sudoers with NOPASSWD
+RUN echo "jenkins ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Set password for the jenkins user (you may want to alter this).
+RUN echo "jenkins:jenkins" | chpasswd
+
+# Set up SSH 
+RUN mkdir /var/run/sshd && mkdir /var/log/ssh
+
+# Set up SSH Host Key
+RUN /usr/bin/ssh-keygen -q -t rsa1 -f /etc/ssh/ssh_host_key -C '' -N ''
+RUN chmod 600 /etc/ssh/ssh_host_key && chmod 644 /etc/ssh/ssh_host_key.pub
+RUN /usr/bin/ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key -C '' -N ''
+RUN chmod 600 /etc/ssh/ssh_host_rsa_key && chmod 644 /etc/ssh/ssh_host_rsa_key.pub
+RUN /usr/bin/ssh-keygen -q -t dsa -f /etc/ssh/ssh_host_dsa_key -C '' -N ''
+RUN chmod 600 /etc/ssh/ssh_host_dsa_key && chmod 644 /etc/ssh/ssh_host_dsa_key.pub
+
+# Set up SSHD config
+RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd  
+RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config && sed -ri 's/#UsePAM no/UsePAM no/g' /etc/ssh/sshd_config
+
+# Git upgrade http://stackoverflow.com/questions/21820715/how-to-install-latest-version-of-git-on-centos-6-x-7-x?lq=1
+RUN yum install --nogpg -y curl-devel expat-devel gettext-devel openssl-devel zlib-devel gcc perl-ExtUtils-MakeMaker
+RUN cd /tmp/ \
+    && wget https://www.kernel.org/pub/software/scm/git/git-2.5.3.tar.gz \
+    && tar xzf git-2.5.3.tar.gz \
+    && cd git-2.5.3 \
+    && make prefix=/usr/local/git all \
+    && make prefix=/usr/local/git install \
+    && echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/bashrc \
+    && source /etc/bashrc \
+    && echo 'export PATH=$PATH:/usr/local/git/bin' > /etc/profile.d/git.sh 
+
+# Verify git version
+
+RUN source /etc/bashrc \
+    && which git \
+    && git --version \
+    && /usr/local/git/bin/git --version \
+    && rm /tmp/git-2.5.3.tar.gz /tmp/git-2.5.3 -rf
+    
+# Expose sshd port
+EXPOSE 22  
+
+# RUN supervisor
+CMD ["/usr/bin/supervisord"]
