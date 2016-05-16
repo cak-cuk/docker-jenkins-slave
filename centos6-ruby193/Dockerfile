@@ -9,36 +9,49 @@ MAINTAINER Mahyuddin Susanto <mahyuddin@wowrack.com>
 # Install Packages
 RUN yum update -y
 #RUN yum groupinstall -y "Development Tools" > /dev/null
-RUN yum install -y curl which bash-completion
+RUN yum install --nogpg -y \
+    autoconf \
+    automake \
+    bison \
+    curl-devel \
+    gcc \
+    gcc-c++ \
+    git-core \
+    httpd-devel \
+    libevent-devel \
+    libxml2 \
+    libxml2-devel \
+    mysql-devel \
+    openssl \
+    openssl-devel \
+    readline-devel \
+    sqlite-devel \
+    zlib \
+    zlib-devel \
+    libxslt \
+    libxslt-devel \
+    wget \
+    && yum clean all
 
-RUN gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 \
-    && \curl -L get.rvm.io | bash -s stable \
-    && /bin/bash -l -c "source /etc/profile.d/rvm.sh; rvm requirements" 
-#RUN /bin/bash -l -c "source /etc/profile.d/rvm.sh; rvm install ruby-1.9.3-p551" 
-#RUN /bin/bash -l -c "source /etc/profile.d/rvm.sh; rvm use ruby-1.9.3-p551 --default; rvm get stable --auto-dotfiles" \
-#    && echo "gem: --no-ri --no-rdoc" > ~/.gemrc \
-#    && echo "export PATH=$PATH:/usr/local/rvm/gems/ruby-1.9.3-p551/bin" >> /etc/bashrc \
-#    && echo "export PATH=$PATH:/usr/local/rvm/gems/ruby-1.9.3-p551/bin" > /etc/profile.d/ruby.sh
 
-RUN  echo "export PATH=$PATH:/usr/local/rvm/gems/ruby-1.9.3-p551/bin" > /etc/profile.d/ruby.sh \
-    && echo "export PATH=$PATH:/usr/local/rvm/gems/ruby-1.9.3-p551/bin" >> /etc/bashrc \
-RUN /bin/bash -l -c "source /etc/profile.d/rvm.sh; rvm install 1.9.3-p551"
-RUN /bin/bash -l -c "source /etc/profile.d/rvm.sh; rvm use 1.9.3-p551 --default"
-#RUN /bin/bash -l -c "source /etc/profile.d/rvm.sh; rvm use 1.9.3-p551 --default; rvm get stable --auto-dotfiles";
-RUN echo "gem: --no-ri --no-rdoc" > ~/.gemrc
-RUN /bin/bash -l -c "gem install bundler"
+WORKDIR /tmp
+RUN wget -O ruby-install-0.6.0.tar.gz https://github.com/postmodern/ruby-install/archive/v0.6.0.tar.gz
+RUN tar xzf /tmp/ruby-install-0.6.0.tar.gz && cd ruby-install-0.6.0 && make install
+RUN ruby-install --install-dir /usr/ ruby 1.9.3-p547
+RUN gem install --no-ri --no-rdoc bundler
+RUN rm -rf /tmp/ruby-install*
+WORKDIR /
 
-#RUN /bin/bash -l -c "source /etc/bashrc; ruby --version"
-#RUN /bin/bash -l -c "echo $PATH; gem install bundler"
-#RUN curl -L get.rvm.io > install \
-#    && chmod +x install \
-#    && gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 \
-#    && /bin/bash install stable \
-#    && . ~/.rvm/rvm.sh
 
 #check ruby version
+RUN ruby --version
+RUN gem update --system \
+    && gem install bundler
 
-RUN yum clean all
+RUN yum remove -y bison gcc-c++ httpd-devel git libevent-devel libxml2-devel libxslt libxslt-devel \
+    mysql-devel readline-devel sqlite-devel apr httpd httpd-tools mysql-libs  libevent mailcap openldap-devel ncurses-devel \
+    apr-util-devel apr-util-ldap apr-util cyrus-sasl cyrus-sasl-devel \
+    && yum clean all
 # Expose sshd port
 EXPOSE 22  
 
