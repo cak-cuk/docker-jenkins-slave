@@ -2,7 +2,7 @@
 FROM centos:centos6
 
 MAINTAINER Mahyuddin Susanto <mahyuddin@wowrack.com>
-#Below is original maintainer 
+#Below is original maintainer
 #MAINTAINER shayashibara <meikyowise@gmail.com>
 
  
@@ -19,23 +19,19 @@ RUN pip install supervisor \
 ADD supervisord.conf /etc/supervisord.conf
 ADD sshd.conf /etc/supervisord.d/sshd.conf
 
-# Add user jenkins to the image
-RUN adduser jenkins
+# 1. Add user jenkins to the image
+# 2. When executing sudo, jenkins user does not require tty
+# 3. No need password when executing sudo
+# 4. Change password to jenkins, this is common password
 
-# Make jenkins user require no tty
-RUN echo "Defaults:jenkins !requiretty" >> /etc/sudoers.d/jenkins
+RUN adduser jenkins \
+    && echo "Defaults:jenkins !requiretty" >> /etc/sudoers.d/jenkins \
+    && echo "jenkins ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/jenkins \
+    && echo "jenkins:jenkins" | chpasswd
 
-# Add user jenkins to sudoers with NOPASSWD
-RUN echo "jenkins ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/jenkins
-
-# Set password for the jenkins user (you may want to alter this).
-RUN echo "jenkins:jenkins" | chpasswd
-
-# Set up SSH 
-RUN mkdir /var/run/sshd && mkdir /var/log/ssh
-
-# Set up SSHD config
-RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd   \
+# Set up SSH
+RUN mkdir /var/run/sshd && mkdir /var/log/ssh \
+    && sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd   \
     && sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config && sed -ri 's/#UsePAM no/UsePAM no/g' /etc/ssh/sshd_config
 
 # Git upgrade http://stackoverflow.com/questions/21820715/how-to-install-latest-version-of-git-on-centos-6-x-7-x?lq=1
@@ -48,19 +44,7 @@ RUN wget https://codeload.github.com/gitster/git/zip/maint-2.5 -O /tmp/git-2.5.z
     && NO_EXPAT=yes NO_SVN_TESTS=yes NO_IPV6=yes NO_TCLTK=yes make prefix=/usr/local/git install \
     && echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/bashrc \
     && source /etc/bashrc \
-    && echo 'export PATH=$PATH:/usr/local/git/bin' > /etc/profile.d/git.sh 
-
-#RUN cd /tmp/ \
-#    && wget https://www.kernel.org/pub/software/scm/git/git-2.5.3.tar.gz \
-#    && tar xzf git-2.5.3.tar.gz \
-#    && cd git-2.5.3 \
-#    && make prefix=/usr/local/git all \
-#    && make prefix=/usr/local/git install \
-#    && echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/bashrc \
-#    && source /etc/bashrc \
-#    && echo 'export PATH=$PATH:/usr/local/git/bin' > /etc/profile.d/git.sh 
-
-# Verify git version
+    && echo 'export PATH=$PATH:/usr/local/git/bin' > /etc/profile.d/git.sh
 
 # Set up SSH Host Key
 RUN /usr/bin/ssh-keygen -q -t rsa1 -f /etc/ssh/ssh_host_key -C '' -N '' \
@@ -72,13 +56,13 @@ RUN /usr/bin/ssh-keygen -q -t rsa1 -f /etc/ssh/ssh_host_key -C '' -N '' \
 
 RUN yum remove -y autoconf automake cloog-ppl db4-cxx db4-devel gdbm-devel \
     gettext gettext-libs glibc-devel.x86_64 glibc-headers kernel-headers \
-    keyutils-libs-devel krb5-devel libart_lgpl libcom_err-devel libgcj libgomp \ 
+    keyutils-libs-devel krb5-devel libart_lgpl libcom_err-devel libgcj libgomp \
     libidn-devel m4 mpfr perl-ExtUtils-ParseXS perl-Test-Harness perl-devel ppl \
     && yum clean all \
     && rm -rf /tmp/git-maint*
 
 # Expose sshd port
-EXPOSE 22  
+EXPOSE 22
 
 # RUN supervisor
 CMD ["/usr/bin/supervisord"]
