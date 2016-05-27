@@ -7,7 +7,7 @@ MAINTAINER Mahyuddin Susanto <mahyuddin@wowrack.com>
 
 # Install Packages
 #RUN yum groupinstall -y "Development Tools" > /dev/null
-RUN yum clean all && yum update -y \
+RUN yum clean all && yum update -y
 RUN yum install --nogpg -y \
     autoconf automake bison curl-devel gcc gcc-c++ \
     git-core httpd-devel libevent-devel libxml2 libxml2-devel \
