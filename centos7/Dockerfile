@@ -7,7 +7,7 @@ MAINTAINER Mahyuddin Susanto <udienz@gmail.com>
 
 # Install a basic SSH server GIT, UNZIP, LSOF and JDK 7
 RUN yum install --nogpg -y openssh-server git unzip lsof java-1.7.0-openjdk-headless sudo epel-release \
-    subversion bzrtools mercurial cvs perl rubygems && yum clean all
+    subversion bzrtools mercurial cvs perl rubygems ruby ruby-devel rubygems && yum clean all
 # update sshd settings, create jenkins user, set jenkins user pw, generate ssh keys
 RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd \
     && mkdir -p /var/run/sshd \

@@ -7,8 +7,9 @@ MAINTAINER Mahyuddin Susanto <mahyuddin@wowrack.com>
 
 # Install Packages
 #RUN yum groupinstall -y "Development Tools" > /dev/null
-RUN yum clean all \
-    && rpm --rebuilddb; yum install --nogpg -y \
+RUN yum update -y \
+    && rpm --rebuilddb
+    && yum install --nogpg -y \
     autoconf automake bison curl-devel gcc gcc-c++ \
     git-core httpd-devel libevent-devel libxml2 libxml2-devel \
     mysql-devel openssl openssl-devel readline-devel \
@@ -27,8 +28,8 @@ WORKDIR /
 #check ruby version
 RUN ruby --version
 
-RUN yum remove -y  autoconf \
-    automake bison curl-devel gcc gcc-c++ git-core httpd-devel \
+RUN yum remove -y \
+    bison curl-devel git-core httpd-devel \
     libevent-devel libxml2-devel mysql-devel \
     openssl-devel readline-devel sqlite-devel zlib-devel \
     libxslt libxslt-devel openldap-devel ncurses-devel \

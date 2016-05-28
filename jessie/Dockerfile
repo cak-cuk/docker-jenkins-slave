@@ -5,7 +5,7 @@ MAINTAINER mahyuddin susanto <udienz@gmail.com>
 
 # Install and configure a basic SSH server
 RUN apt-get update &&\
-    apt-get install -y openssh-server git subversion bzr mercurial cvs sudo &&\
+    apt-get install -y openssh-server git subversion bzr mercurial cvs sudo ruby ruby-dev build-essential &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
     sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd &&\
     mkdir -p /var/run/sshd
