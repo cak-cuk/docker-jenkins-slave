@@ -25,15 +25,13 @@ RUN wget -O ruby-install-0.6.0.tar.gz https://github.com/postmodern/ruby-install
     && rm -rf /tmp/ruby-install*
 WORKDIR /
 
-#check ruby version
-RUN ruby --version
-
 RUN yum remove -y \
-    bison curl-devel git-core httpd-devel \
+    curl-devel git-core httpd-devel \
     libevent-devel libxml2-devel mysql-devel \
     openssl-devel readline-devel sqlite-devel zlib-devel \
     libxslt libxslt-devel openldap-devel ncurses-devel \
-    apr-util-devel apr-util-ldap apr-util cyrus-sasl cyrus-sasl-devel
+    apr-util-devel apr-util-ldap cyrus-sasl cyrus-sasl-devel \
+    && yum clean all
 
 # Expose sshd port
 EXPOSE 22  

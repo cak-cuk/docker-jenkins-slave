@@ -37,7 +37,8 @@ RUN mkdir /var/run/sshd && mkdir /var/log/ssh \
     && sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config && sed -ri 's/#UsePAM no/UsePAM no/g' /etc/ssh/sshd_config
 
 # Git upgrade http://stackoverflow.com/questions/21820715/how-to-install-latest-version-of-git-on-centos-6-x-7-x?lq=1
-RUN yum install --nogpg -y curl-devel expat-devel gettext-devel openssl-devel zlib-devel gcc perl-ExtUtils-MakeMaker gcc-c++
+RUN yum install --nogpg -y curl-devel expat-devel gettext-devel openssl-devel zlib-devel gcc perl-ExtUtils-MakeMaker gcc-c++ \
+	gcc make
 RUN wget https://codeload.github.com/gitster/git/zip/maint-2.5 -O /tmp/git-2.5.zip \
     && cd /tmp/ \
     && unzip /tmp/git-2.5.zip \
