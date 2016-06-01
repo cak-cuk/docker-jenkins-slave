@@ -18,6 +18,7 @@ CentOS | 6 | `udienz/jenkins-docker:centos6` | [Dockerfile][2] | [![Build Status
 CentOS | 6 | `udienz/jenkins-docker:centos6-ruby193` | [Dockerfile][3] | [![Build Status](https://jenkins.mahyudd.in/job/docker-centos6-ruby193/badge/icon)](http://jenkins.mahyudd.in/job/docker-centos6-ruby193)
 CentOS | 6 | `udienz/jenkins-docker:centos6-ruby200` | [Dockerfile][4] | [![Build Status](https://jenkins.mahyudd.in/job/docker-centos6-ruby200/badge/icon)](http://jenkins.mahyudd.in/job/docker-centos6-ruby200)
 CentOS | 7 | `udienz/jenkins-docker:centos7` | [Dockerfile][5] | [![Build Status](https://jenkins.mahyudd.in/job/docker-centos7/badge/icon)](http://jenkins.mahyudd.in/job/docker-centos7)
+CentOS | 7 | `udienz/jenkins-docker:centos7-ruby231` | [Dockerfile][10] | [![Build Status](https://jenkins.mahyudd.in/job/docker-centos7-ruby231/badge/icon)](http://jenkins.mahyudd.in/job/docker-centos7)
 Debian | Jessie | `udienz/jenkins-docker:jessie`  | [Dockerfile][1] | [![Build Status](https://jenkins.mahyudd.in/job/docker-jessie/badge/icon)](http://jenkins.mahyudd.in/job/docker-jessie)
 Debian | Wheezy | `udienz/jenkins-docker:wheezy`  | [Dockerfile][8] | [![Build Status](https://jenkins.mahyudd.in/job/docker-wheezy/badge/icon)](http://jenkins.mahyudd.in/job/docker-wheezy)
 Debian | stretch | `udienz/jenkins-docker:stretch`  | [Dockerfile][8] | [![Build Status](https://jenkins.mahyudd.in/job/docker-stretch/badge/icon)](http://jenkins.mahyudd.in/job/docker-stretch)
@@ -39,6 +40,7 @@ Notes:
 [7]: https://github.com/udienz/jenkins-docker/blob/master/xenial/Dockerfile
 [8]: https://github.com/udienz/jenkins-docker/blob/master/wheezy/Dockerfile
 [9]: https://github.com/udienz/jenkins-docker/blob/master/stretch/Dockerfile
+[10]: https://github.com/udienz/jenkins-docker/blob/master/centos7-ruby231/Dockerfile
 
 Etc...
 ------
