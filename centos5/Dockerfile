@@ -1,5 +1,5 @@
 # base image
-FROM centos:centos5
+FROM udienz/buildpack:centos5
 
 MAINTAINER Mahyuddin Susanto <mahyuddin@wowrack.com>
 #Below is original maintainer 

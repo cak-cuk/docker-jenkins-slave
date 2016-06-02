@@ -1,5 +1,5 @@
 # This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node.
-FROM ubuntu:xenial
+FROM udienz/buildpack:xenial
 MAINTAINER mahyuddin susanto <udienz@gmail.com>
 
 

@@ -1,5 +1,5 @@
 # This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node.
-FROM debian:jessie
+FROM udienz/buildpack:jessie
 MAINTAINER mahyuddin susanto <udienz@gmail.com>
 
 
