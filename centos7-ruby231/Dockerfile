@@ -27,7 +27,7 @@ RUN wget -O ruby-install-0.6.0.tar.gz https://github.com/postmodern/ruby-install
     && ruby-install --system --latest ruby \
     && gem install --no-ri --no-rdoc bundler \
     && gem update --system \
-    && rm -rf /tmp/ruby-install*
+    && rm -rf /tmp/ruby-install* \
     && ruby --version
 
 # Standard SSH port
