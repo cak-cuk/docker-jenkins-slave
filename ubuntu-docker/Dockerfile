@@ -1,5 +1,5 @@
 # This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node.
-FROM ubuntu:trusty
+FROM ubuntu:focal
 MAINTAINER Mahyuddin Susanto <udienz@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive

@@ -34,7 +34,7 @@ RUN yum remove -y \
     && yum clean all
 
 # Expose sshd port
-EXPOSE 22  
+EXPOSE 22
 
 # RUN supervisor
 #CMD ["/usr/bin/supervisord"]

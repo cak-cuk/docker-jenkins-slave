@@ -1,11 +1,10 @@
 # base image
 FROM udienz/buildpack:centos6
 
-MAINTAINER Mahyuddin Susanto <mahyuddin@wowrack.com>
 #Below is original maintainer
 #MAINTAINER shayashibara <meikyowise@gmail.com>
 
- 
+
 # Install Packages
 RUN yum update -y \
     && rpm -ivh http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm \
@@ -18,8 +17,8 @@ RUN yum update -y \
 # Install supervisor
 RUN pip install supervisor \
     && mkdir /etc/supervisord.d && mkdir /var/log/supervisor
-ADD supervisord.conf /etc/supervisord.conf
-ADD sshd.conf /etc/supervisord.d/sshd.conf
+COPY centos6/supervisord.conf /etc/supervisord.conf
+COPY centos6/sshd.conf /etc/supervisord.d/sshd.conf
 
 # 1. Add user jenkins to the image
 # 2. When executing sudo, jenkins user does not require tty

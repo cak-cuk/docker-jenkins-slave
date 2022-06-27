@@ -1,7 +1,5 @@
 # This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node.
 FROM udienz/buildpack:wheezy
-MAINTAINER mahyuddin susanto <udienz@gmail.com>
-
 
 # Install and configure a basic SSH server
 RUN apt-get update &&\

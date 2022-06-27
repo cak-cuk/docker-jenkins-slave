@@ -2,10 +2,10 @@
 FROM udienz/buildpack:centos5
 
 MAINTAINER Mahyuddin Susanto <mahyuddin@wowrack.com>
-#Below is original maintainer 
+#Below is original maintainer
 #MAINTAINER shayashibara <meikyowise@gmail.com>
 
- 
+
 # Install Packages
 RUN yum update -y \
     && rpm -ivh http://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm \
@@ -32,7 +32,7 @@ RUN echo "jenkins ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/jenkins
 # Set password for the jenkins user (you may want to alter this).
 RUN echo "jenkins:jenkins" | chpasswd
 
-# Set up SSH 
+# Set up SSH
 RUN mkdir /var/run/sshd && mkdir /var/log/ssh
 
 # Set up SSH Host Key
@@ -57,7 +57,7 @@ RUN cd /tmp/ \
     && make prefix=/usr/local/git install \
     && echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/bashrc \
     && source /etc/bashrc \
-    && echo 'export PATH=$PATH:/usr/local/git/bin' > /etc/profile.d/git.sh 
+    && echo 'export PATH=$PATH:/usr/local/git/bin' > /etc/profile.d/git.sh
 
 # Verify git version
 
@@ -66,9 +66,9 @@ RUN source /etc/bashrc \
     && git --version \
     && /usr/local/git/bin/git --version \
     && rm /tmp/git-2.5.3.tar.gz /tmp/git-2.5.3 -rf
-    
+
 # Expose sshd port
-EXPOSE 22  
+EXPOSE 22
 
 # RUN supervisor
 CMD ["/usr/bin/supervisord"]
