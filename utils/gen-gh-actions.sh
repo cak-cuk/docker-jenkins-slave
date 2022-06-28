@@ -55,7 +55,7 @@ jobs:
         id: open-pr
         uses: repo-sync/pull-request@v2
         with:
-          destination_branch: \"master\"
+          destination_branch: \"main\"
           pr_title: \"[DRAFT] pull_request\"
           pr_body: \"PR Request from \${{ github.event_name }} event to \${{ github.ref }}.\"
           github_token: \${{ secrets.GH_TOKEN }}
