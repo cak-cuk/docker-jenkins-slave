@@ -1,7 +1,6 @@
 # This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node.
 FROM udienz/buildpack:jammy
 
-
 # Install and configure a basic SSH server
 RUN apt-get update &&\
     apt-get install -y openssh-server git subversion bzr cvs sudo mercurial ruby ruby-dev build-essential &&\

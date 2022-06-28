@@ -2,7 +2,7 @@
 
 set =x
 BASE=$CI_PROJECT_DIR
-DISTRO="centos6 centos7 trusty xenial bionic focal jammy jessie stretch buster bulleye bookworm"
+DISTRO="centos6 centos7 trusty xenial bionic focal jammy jessie stretch buster bullseye bookworm"
 GHA=$BASE/.github/workflows
 rm .github/workflows/*.yml
 
@@ -26,7 +26,6 @@ jobs:
        uses: hadolint/hadolint-action@v1.6.0
        with:
          dockerfile: $x/Dockerfile
-         ignore: DL3008 DL3007 DL3018 DL3033
 " > $PR
 	LINT=.github/workflows/$x-lint.yml
   echo "name: Check $x Dockerfile
@@ -45,7 +44,6 @@ jobs:
       uses: hadolint/hadolint-action@v1.6.0
       with:
         dockerfile: $x/Dockerfile
-        ignore: DL3008 DL3007 DL3018 DL3033
   create-pull-request:
     name: create-pull-request
     needs: hadolint
@@ -80,7 +78,6 @@ jobs:
       uses: hadolint/hadolint-action@v1.6.0
       with:
         dockerfile: $x/Dockerfile
-        ignore: DL3008 DL3007 DL3018 DL3033
   build:
     runs-on: [\"self-hosted\"]
     needs: [\"hadolint\"]

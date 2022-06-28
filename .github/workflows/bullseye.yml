@@ -1,4 +1,4 @@
-name: Build bulleye docker image
+name: Build bullseye docker image
 on:
   push:
     branches: [ "main", "master" ]
@@ -13,8 +13,7 @@ jobs:
     - name: Hadolint
       uses: hadolint/hadolint-action@v1.6.0
       with:
-        dockerfile: bulleye/Dockerfile
-        ignore: DL3008 DL3007 DL3018 DL3033
+        dockerfile: bullseye/Dockerfile
   build:
     runs-on: ["self-hosted"]
     needs: ["hadolint"]
@@ -27,7 +26,7 @@ jobs:
         name: udienz/jenkins-docker
         username: ${{ github.actor }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: bulleye/Dockerfile
+        dockerfile: bullseye/Dockerfile
         buildoptions: "--compress --force-rm"
-        tags: "bulleye"
+        tags: "bullseye"
 

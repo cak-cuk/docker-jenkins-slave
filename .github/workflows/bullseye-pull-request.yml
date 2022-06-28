@@ -1,4 +1,4 @@
-name: check bulleye dockerfile for PR
+name: check bullseye dockerfile for PR
 on:
   pull_request:
     branch-ignore:
@@ -13,6 +13,5 @@ jobs:
      - name: Hadolint
        uses: hadolint/hadolint-action@v1.6.0
        with:
-         dockerfile: bulleye/Dockerfile
-         ignore: DL3008 DL3007 DL3018 DL3033
+         dockerfile: bullseye/Dockerfile
 

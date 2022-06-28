@@ -14,7 +14,6 @@ jobs:
       uses: hadolint/hadolint-action@v1.6.0
       with:
         dockerfile: xenial/Dockerfile
-        ignore: DL3008 DL3007 DL3018 DL3033
   create-pull-request:
     name: create-pull-request
     needs: hadolint
