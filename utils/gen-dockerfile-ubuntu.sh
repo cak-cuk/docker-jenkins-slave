@@ -11,7 +11,7 @@ ENV TZ="UTC"
 # Install and configure a basic SSH server
 RUN apt-get update && \\
     ln -fs /usr/share/zoneinfo/UTC /etc/localtime && \\
-    apt-get install -y -q --no-install-recommends default-jdk=headless \\
+    apt-get install -y -q --no-install-recommends default-jdk-headless \\
 	  openssh-server git subversion bzr cvs sudo mercurial build-essential &&\\
     apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\\
     sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd &&\\
