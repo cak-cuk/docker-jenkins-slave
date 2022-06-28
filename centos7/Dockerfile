@@ -1,9 +1,8 @@
 # This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node.
-# It is based on instructions from https://wiki.jenkins-ci.org/display/JENKINS/Docker+Plugin and Dockerfile 
+# It is based on instructions from https://wiki.jenkins-ci.org/display/JENKINS/Docker+Plugin and Dockerfile
 # from https://hub.docker.com/r/evarga/jenkins-slave/
 
 FROM centos:7
-MAINTAINER Mahyuddin Susanto <udienz@gmail.com>
 
 # Install a basic SSH server GIT, UNZIP, LSOF and JDK 7
 RUN yum install --nogpg -y openssh-server git unzip lsof java-1.7.0-openjdk-headless sudo epel-release \
