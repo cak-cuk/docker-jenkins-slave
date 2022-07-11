@@ -19,8 +19,6 @@ RUN echo "Defaults:jenkins !requiretty" >> /etc/sudoers \
 	&& sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config \
 	&& sed -ri 's/#UsePAM no/UsePAM no/g' /etc/ssh/sshd_config
 
-RUN gem install bundler
-
 # Standard SSH port
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]

@@ -9,7 +9,7 @@ FROM udienz/buildpack:centos6
 RUN yum update -y \
     && rpm -ivh http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm \
     && yum install --nogpg -y passwd openssh openssh-server openssh-clients sudo python-devel \
-    python-pip java-1.7.0-openjdk wget subversion bzrtools mercurial cvs zip unzip ruby rubygems ruby-devel \
+    python-pip java-1.7.0-openjdk wget subversion bzrtools mercurial cvs zip unzip \
     && yum groupinstall "Development tools" -y \
     && yum remove -y git \
     && yum clean all

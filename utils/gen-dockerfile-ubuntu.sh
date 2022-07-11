@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RELEASE="precise trusty xenial bionic focal jammy"
+RELEASE="xenial bionic focal jammy"
 for release in $RELEASE
 do
     cat > $release/Dockerfile <<EOF

@@ -1,4 +1,4 @@
-# Generated in Tue Jun 28 05:04:53 AM UTC 2022
+# Generated in Mon Jul 11 06:54:59 AM UTC 2022
 # This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node.
 FROM udienz/buildpack:wheezy
 

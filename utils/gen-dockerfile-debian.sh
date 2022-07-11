@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RELEASE="bookworm bullseye buster jessie stretch wheezy"
+RELEASE="bookworm bullseye buster stretch wheezy"
 for release in $RELEASE
 do
     cat > $release/Dockerfile <<EOF
