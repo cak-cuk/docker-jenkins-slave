@@ -2,7 +2,7 @@
 
 set =x
 BASE=$CI_PROJECT_DIR
-DISTRO="centos6 centos7 trusty xenial bionic focal jammy jessie stretch buster bullseye bookworm"
+DISTRO="centos6 centos7 xenial bionic focal jammy stretch buster bullseye bookworm"
 GHA=$BASE/.github/workflows
 rm .github/workflows/*.yml
 
