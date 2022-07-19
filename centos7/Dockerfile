@@ -1,10 +1,16 @@
 FROM amd64/eclipse-temurin:11-jdk-centos7 AS jre-build
 
+ARG user=jenkins
+ARG group=jenkins
+ARG uid=1000
+ARG gid=1000
+ARG JENKINS_AGENT_HOME=/home/${user}
+
 RUN yum install epel-release -y \
         && yum install -y \
         sudo git git-lfs netcat openssh-server \
         && yum clean all
-
+# useradd -c "Jenkins user" -d /home/${user} -u ${uid} -g ${gid} -m ${user}
 RUN groupadd -g ${gid} ${group} \
         && useradd -d "${JENKINS_AGENT_HOME}" -u "${uid}" -g "${gid}" -m \
         -s /bin/bash "${user}" \
