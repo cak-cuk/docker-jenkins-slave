@@ -19,7 +19,7 @@ RUN export LC_ALL=en_US.UTF-8 \
     && yum clean all \
     && localedef -c -f UTF-8 -i en_US en_US.UTF-8
 
-RUN for i in $(ls -1 /lib/systemd/system/sysinit.target.wants/); do \
+RUN for i in $(ls -1 "/lib/systemd/system/sysinit.target.wants/"); do \
     [ $i == systemd-tmpfiles-setup.service ] || \
     rm -f /lib/systemd/system/sysinit.target.wants/$i; \
     done; \
@@ -52,12 +52,11 @@ RUN curl -sSLo /usr/local/bin/setup-sshd \
 
 WORKDIR "${JENKINS_AGENT_HOME}"
 
-USER ${user}
+USER jenkins
 RUN echo "PATH=$HOME/.local/bin:$HOME/bin:${JAVA_HOME}/bin:$PATH" >> $HOME/.bashrc \
-    && pip3 install --user --upgrade pip \
-    && pip3 install --user ansible ansible-lint yamllint molecule molecule-docker
+    && pip3 install --no-cache-dir --user --upgrade pip \
+    && pip3 install --no-cache-dir --user ansible ansible-lint yamllint molecule molecule-docker
 
-USER root
 VOLUME ["/sys/fs/cgroup", "${JENKINS_AGENT_HOME}", "/tmp", "/run", "/var/run"]
 
 EXPOSE 22
