@@ -1,19 +1,15 @@
-# This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node.
+# Generated in Mon Jul 11 06:55:05 AM UTC 2022
 FROM udienz/buildpack:xenial
-MAINTAINER mahyuddin susanto <udienz@gmail.com>
 
-
+ENV TZ="UTC"
 # Install and configure a basic SSH server
-RUN apt-get update &&\
-    apt-get install -y openssh-server git subversion bzr cvs sudo mercurial ruby ruby-dev build-essential &&\
+RUN apt-get update && \
+    ln -fs /usr/share/zoneinfo/UTC /etc/localtime && \
+    apt-get install -y -q --no-install-recommends default-jdk-headless \
+	  openssh-server git subversion bzr cvs sudo mercurial build-essential &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
     sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd &&\
     mkdir -p /var/run/sshd
-
-# Install JDK 7 (latest edition)
-RUN apt-get update &&\
-    apt-get install -y --no-install-recommends default-jdk &&\
-    apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # Set user jenkins to the image
 RUN adduser --quiet --disabled-password --gecos '' jenkins \

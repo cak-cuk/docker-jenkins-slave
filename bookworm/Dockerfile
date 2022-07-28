@@ -1,6 +1,6 @@
 # Generated in Mon Jul 11 06:54:59 AM UTC 2022
 # This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node.
-FROM udienz/buildpack:stretch
+FROM udienz/buildpack:bookworm
 
 ENV TZ="UTC"
 # Install and configure a basic SSH server
