@@ -4,7 +4,7 @@ FROM udienz/buildpack:centos6
 #Below is original maintainer
 #MAINTAINER shayashibara <meikyowise@gmail.com>
 
-
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # Install Packages
 RUN yum update -y \
     && rpm -ivh http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm \
