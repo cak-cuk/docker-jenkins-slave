@@ -33,7 +33,7 @@ RUN for i in $(ls -1 "/lib/systemd/system/sysinit.target.wants/"); do \
 
 # useradd -c "Jenkins user" -d /home/${user} -u ${uid} -g ${gid} -m ${user}
 RUN groupadd -g ${gid} ${group} \
-    && useradd -d "${JENKINS_AGENT_HOME}" -u "${uid}" -g "${gid}" -m \
+    && useradd -l -d "${JENKINS_AGENT_HOME}" -u "${uid}" -g "${gid}" -m \
     -s /bin/bash "${user}" \
     && echo "Defaults:${user} !requiretty" >> /etc/sudoers \
     && echo "${user} ALL=NOPASSWD: ALL" >> /etc/sudoers.d/${user} \
