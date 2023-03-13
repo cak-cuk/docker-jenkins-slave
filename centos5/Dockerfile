@@ -33,8 +33,8 @@ RUN pip install --no-cache-dir supervisor \
     && yum install --nogpg -y curl-devel expat-devel gettext-devel openssl-devel zlib-devel gcc perl-ExtUtils-MakeMaker \
     && yum clean all \
     && wget -q https://www.kernel.org/pub/software/scm/git/git-2.5.3.tar.gz \
-    && tar xzf git-2.5.3.tar.gz 
-WORKDIR /tmp/git-2.5.3 
+    && tar xzf git-2.5.3.tar.gz
+WORKDIR /tmp/git-2.5.3
 RUN make prefix=/usr/local/git all \
     && make prefix=/usr/local/git install \
     && echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/bashrc \
