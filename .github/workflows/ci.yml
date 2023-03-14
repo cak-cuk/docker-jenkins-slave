@@ -51,20 +51,10 @@ jobs:
         include:
           - os: centos7
             codename: centos7.9.2009
-          - os: ubuntu1404
-            codename: ubuntu-trusty
-          - os: ubuntu1604
-            codename: ubuntu-xenial
-          - os: ubuntu1804
-            codename: ubuntu-bionic
           - os: ubuntu2004
             codename: ubuntu-focal
           - os: ubuntu2204
             codename: ubuntu-jammy
-          - os: debian8
-            codename: debian-jessie
-          - os: debian9
-            codename: debian-stretch
           - os: debian10
             codename: debian-buster
           - os: debian11
