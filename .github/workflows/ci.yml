@@ -9,7 +9,7 @@ on:
       - '**.txt'
       - '**.sh'
   schedule:
-    - cron: '0 12 * * 0'
+    - cron: '0 4 */15 * *'
   push:
     branches:
       - main
@@ -25,7 +25,7 @@ jobs:
     if: github.event_name == 'pull_request'
     strategy:
       matrix:
-        os: [ centos7, ubuntu1404, ubuntu1604, ubuntu1804, ubuntu2004, ubuntu2204, debian8, debian9, debian10, debian11, debian12 ]
+        os: [ centos7, ubuntu2004, ubuntu2204, debian10, debian11, debian12 ]
     steps:
       - uses: AutoModality/action-clean@v1
       - name: Change ownership
@@ -47,7 +47,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     strategy:
       matrix:
-        os: [ centos7, ubuntu1404, ubuntu1604, ubuntu1804, ubuntu2004, ubuntu2204, debian8, debian9, debian10, debian11, debian12 ]
+        os: [ centos7, ubuntu2004, ubuntu2204, debian10, debian11, debian12 ]
         include:
           - os: centos7
             codename: centos7.9.2009
