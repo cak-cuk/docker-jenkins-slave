@@ -1,5 +1,4 @@
-# Generated in Mon Jul 11 06:55:05 AM UTC 2022
-FROM udienz/buildpack:1604
+FROM udienz/buildpack:ubuntu1604
 
 ENV TZ="UTC"
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
