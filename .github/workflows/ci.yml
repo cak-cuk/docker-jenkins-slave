@@ -97,7 +97,7 @@ jobs:
           platforms: linux/amd64
           push: true
           pull: true
-          tags: udienz/buildpack:${{ matrix.os }},udienz/buildpack:${{ matrix.codename }}
+          tags: udienz/jenkins-slave:${{ matrix.os }},udienz/buildpack:${{ matrix.codename }}
 
       - name: Build and push image.
         if: ${{ matrix.codename =='' }}
@@ -108,4 +108,4 @@ jobs:
           platforms: linux/amd64
           push: true
           pull: true
-          tags: udienz/buildpack:${{ matrix.os }}
+          tags: udienz/jenkins-slave:${{ matrix.os }}
