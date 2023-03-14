@@ -9,7 +9,7 @@ on:
       - '**.txt'
       - '**.sh'
   schedule:
-    - cron: '0 12 * * 0'
+    - cron: '0 4 */15 * *'
   push:
     branches:
       - main
