@@ -46,6 +46,6 @@ RUN mkdir -p /etc/ansible \
     && rm -f /lib/systemd/system/getty.target
 
 VOLUME ["/sys/fs/cgroup", "/tmp", "/run"]
-CMD ["/lib/systemd/systemd"]
 EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
+
+CMD ["/bin/bash", "-c", "/lib/systemd/systemd; /usr/sbin/sshd -D" ]
