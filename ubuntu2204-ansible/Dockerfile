@@ -15,9 +15,9 @@ RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime \
     && apt-get update \
     && apt-get upgrade -y \
     &&  apt-get install -y -q --no-install-recommends \
-    git python3-pip locales libffi-dev libssl-dev libyaml-dev python3-dev default-jdk-headless \
-    python3-setuptools python3-yaml iproute2 wget openssh-client \
-	openssh-server git subversion bzr cvs sudo mercurial build-essential \
+      git python3-pip locales libffi-dev libssl-dev libyaml-dev python3-dev default-jdk-headless \
+      python3-setuptools python3-yaml iproute2 wget openssh-client sshpass \
+      openssh-server git subversion bzr cvs sudo mercurial build-essential \
     && groupadd -g ${gid} ${group} \
     && useradd -l -d "${JENKINS_AGENT_HOME}" -u "${uid}" -g "${gid}" -m \
     -s /bin/bash "${user}" \
