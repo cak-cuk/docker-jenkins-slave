@@ -21,13 +21,29 @@ RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime \
     && locale-gen en_US.UTF-8 \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
+# Terraform
+RUN apt update; apt install -y gnupg software-properties-common \
+    && get -O- https://apt.releases.hashicorp.com/gpg | \
+    gpg --dearmor | \
+    tee /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+    https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+    tee /etc/apt/sources.list.d/hashicorp.list \
+    && gpg --no-default-keyring \
+    --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+    --fingerprint \
+    && apt update \
+    && apt install terraform \
+    && apt remove -y gnupg software-properties-common \
+    && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+
 USER jenkins
 RUN export LC_ALL="en_US.UTF-8" \
     && echo "LC_ALL=en_US.UTF-8" >> $HOME/.bashrc \
     && export PATH="$HOME/bin:$HOME/.local/bin:$PATH" \
     && echo 'export PATH="$HOME/bin:$HOME/.local/bin:$PATH"' >> $HOME/.bashrc \
     && python3 -m pip install --no-cache-dir --upgrade pip \
-    && pip3 install --no-cache-dir ansible ansible-lint molecule-docker
+    && pip3 install --no-cache-dir ansible ansible-lint molecule-docker dnspython yamllint
 
 USER root
 RUN mkdir -p /etc/ansible
