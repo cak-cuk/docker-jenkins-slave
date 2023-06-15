@@ -22,7 +22,7 @@ RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # Terraform
-RUN apt-get update; apt-get install -y gnupg software-properties-common \
+RUN apt-get update; apt-get -y -q --no-install-recommends install gnupg software-properties-common \
     && wget -q -O- https://apt.releases.hashicorp.com/gpg | \
     gpg --dearmor | \
     tee /usr/share/keyrings/hashicorp-archive-keyring.gpg \
@@ -33,7 +33,7 @@ RUN apt-get update; apt-get install -y gnupg software-properties-common \
     --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg \
     --fingerprint \
     && apt-get update \
-    && apt-get install terraform \
+    && apt-get install -y -q --no-install-recommends terraform \
     && apt-get remove -y gnupg software-properties-common \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
