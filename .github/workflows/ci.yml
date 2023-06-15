@@ -25,7 +25,7 @@ jobs:
     if: github.event_name == 'pull_request'
     strategy:
       matrix:
-        os: [ centos7, ubuntu2004, ubuntu2204, ubuntu2204-ansible, debian10, debian11, debian12 ]
+        os: [ centos7, ubuntu2004, ubuntu2004-ansible, ubuntu2204, ubuntu2204-ansible, debian10, debian11, debian12 ]
     steps:
       - uses: AutoModality/action-clean@v1
       - name: Change ownership
@@ -39,7 +39,7 @@ jobs:
         uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: ${{ matrix.os }}/Dockerfile
-          ignore: SC2086, DL3008, DL3013, DL3002, DL3007, DL3018, DL3033, SC3037, DL3059, SC2039, DL3018, DL3033, SC1091, DL3003
+          ignore: SC2086, DL3008, DL3013, DL3002, DL3007, DL3018, DL3033, SC3037, DL3059, SC2039, DL3018, DL3033, SC1091, DL3003, DL3027
 
   build_container:
     name: Build container
@@ -47,7 +47,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     strategy:
       matrix:
-        os: [ centos7, ubuntu2004, ubuntu2204, ubuntu2204-ansible, debian10, debian11, debian12 ]
+        os: [ centos7, ubuntu2004, ubuntu2004-ansible, ubuntu2204, ubuntu2204-ansible, debian10, debian11, debian12 ]
         include:
           - os: centos7
             codename: centos7.9.2009
@@ -57,6 +57,8 @@ jobs:
             codename: ubuntu-jammy
           - os: ubuntu2204-ansible
             codename: ubuntu-jammy-ansible
+          - os: ubuntu2004-ansible
+            codename: ubuntu-focal-ansible
           - os: debian10
             codename: debian-buster
           - os: debian11
