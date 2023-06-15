@@ -22,8 +22,8 @@ RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # Terraform
-RUN apt update; apt install -y gnupg \
-    && wget -O- https://apt.releases.hashicorp.com/gpg | \
+RUN apt-get update; apt-get install -y gnupg \
+    && wget -q -O- https://apt.releases.hashicorp.com/gpg | \
     gpg --dearmor | \
     tee /usr/share/keyrings/hashicorp-archive-keyring.gpg \
     && echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
@@ -32,10 +32,10 @@ RUN apt update; apt install -y gnupg \
     && gpg --no-default-keyring \
     --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg \
     --fingerprint \
-    && apt update \
-    && apt install terraform \
-    && apt remove -y gnupg software-properties-common \
-    && apt-get clean -y && apt autoremove -y && rm -rf /var/lib/apt/lists/*
+    && apt-get update \
+    && apt-get install terraform \
+    && apt-get remove -y gnupg software-properties-common \
+    && apt-get clean -y && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
 USER jenkins
 RUN export LC_ALL="en_US.UTF-8" \
