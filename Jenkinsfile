@@ -2,10 +2,10 @@
 
 pipeline {
   agent {
-        label 'ubuntu2204'
+        label 'baremetal'
   }
   options {
-	timestamps()
+	  timestamps()
     ansiColor("xterm")
     buildDiscarder(logRotator(numToKeepStr: "100"))
     timeout(time: 2, unit: "HOURS")
