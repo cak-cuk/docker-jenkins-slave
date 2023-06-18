@@ -19,10 +19,11 @@ pipeline {
                 sh 'printenv | sort'
             }
         }
+
     stage("Build ubuntu2004") {
             when { expression { env.GIT_BRANCH != 'main' } }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerHub"'", passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
                     docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
                     cd ${WORKSPACE}/ubuntu2004
@@ -35,7 +36,7 @@ pipeline {
     stage("Build ubuntu2204") {
             when { expression { env.GIT_BRANCH != 'main' } }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerHub"'", passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
                     docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
                     cd ${WORKSPACE}/ubuntu2204
@@ -48,7 +49,7 @@ pipeline {
     stage("Build debian10") {
             when { expression { env.GIT_BRANCH != 'main' } }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerHub"'", passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
                     docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
                     cd ${WORKSPACE}/debian10
@@ -61,7 +62,7 @@ pipeline {
     stage("Build debian11") {
             when { expression { env.GIT_BRANCH != 'main' } }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerHub"'", passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
                     docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
                     cd ${WORKSPACE}/debian11
@@ -74,7 +75,7 @@ pipeline {
     stage("Build debian12") {
             when { expression { env.GIT_BRANCH != 'main' } }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerHub"'", passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
                     docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
                     cd ${WORKSPACE}/debian12
@@ -87,7 +88,7 @@ pipeline {
     stage("Build ubuntu2004-ansible") {
             when { expression { env.GIT_BRANCH != 'main' } }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerHub"'", passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
                     docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
                     cd ${WORKSPACE}/ubuntu2004-ansible
@@ -100,7 +101,7 @@ pipeline {
     stage("Build ubuntu2204-ansible") {
             when { expression { env.GIT_BRANCH != 'main' } }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerHub"'", passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
                     docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
                     cd ${WORKSPACE}/ubuntu2204-ansible
@@ -113,7 +114,7 @@ pipeline {
     stage("Build debian10-ansible") {
             when { expression { env.GIT_BRANCH != 'main' } }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerHub"'", passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
                     docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
                     cd ${WORKSPACE}/debian10-ansible
@@ -126,7 +127,7 @@ pipeline {
     stage("Build debian11-ansible") {
             when { expression { env.GIT_BRANCH != 'main' } }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerHub"'", passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
                     docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
                     cd ${WORKSPACE}/debian11-ansible
@@ -139,7 +140,7 @@ pipeline {
     stage("Build debian12-ansible") {
             when { expression { env.GIT_BRANCH != 'main' } }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerHub"'", passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
                     docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
                     cd ${WORKSPACE}/debian12-ansible
