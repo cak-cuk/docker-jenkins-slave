@@ -5,7 +5,7 @@ pipeline {
         label 'baremetal'
   }
   options {
-	  timestamps()
+	timestamps()
     ansiColor("xterm")
     buildDiscarder(logRotator(numToKeepStr: "100"))
     timeout(time: 2, unit: "HOURS")
@@ -20,12 +20,13 @@ pipeline {
             }
         }
 
+
     stage("Build ubuntu2004") {
             when { expression { env.GIT_BRANCH != 'main' } }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
-                    docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
+                    docker login -u ${dockerHubUser} -p ${dockerHubPassword}
                     cd ${WORKSPACE}/ubuntu2004
                     docker buildx build -t udienz/jenkins-slave:ubuntu2004
                 '''
@@ -38,7 +39,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
-                    docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
+                    docker login -u ${dockerHubUser} -p ${dockerHubPassword}
                     cd ${WORKSPACE}/ubuntu2204
                     docker buildx build -t udienz/jenkins-slave:ubuntu2204
                 '''
@@ -51,7 +52,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
-                    docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
+                    docker login -u ${dockerHubUser} -p ${dockerHubPassword}
                     cd ${WORKSPACE}/debian10
                     docker buildx build -t udienz/jenkins-slave:debian10
                 '''
@@ -64,7 +65,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
-                    docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
+                    docker login -u ${dockerHubUser} -p ${dockerHubPassword}
                     cd ${WORKSPACE}/debian11
                     docker buildx build -t udienz/jenkins-slave:debian11
                 '''
@@ -77,7 +78,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
-                    docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
+                    docker login -u ${dockerHubUser} -p ${dockerHubPassword}
                     cd ${WORKSPACE}/debian12
                     docker buildx build -t udienz/jenkins-slave:debian12
                 '''
@@ -90,7 +91,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
-                    docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
+                    docker login -u ${dockerHubUser} -p ${dockerHubPassword}
                     cd ${WORKSPACE}/ubuntu2004-ansible
                     docker buildx build -t udienz/jenkins-slave:ubuntu2004-ansible
                 '''
@@ -103,7 +104,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
-                    docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
+                    docker login -u ${dockerHubUser} -p ${dockerHubPassword}
                     cd ${WORKSPACE}/ubuntu2204-ansible
                     docker buildx build -t udienz/jenkins-slave:ubuntu2204-ansible
                 '''
@@ -116,7 +117,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
-                    docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
+                    docker login -u ${dockerHubUser} -p ${dockerHubPassword}
                     cd ${WORKSPACE}/debian10-ansible
                     docker buildx build -t udienz/jenkins-slave:debian10-ansible
                 '''
@@ -129,7 +130,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
-                    docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
+                    docker login -u ${dockerHubUser} -p ${dockerHubPassword}
                     cd ${WORKSPACE}/debian11-ansible
                     docker buildx build -t udienz/jenkins-slave:debian11-ansible
                 '''
@@ -142,14 +143,13 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
-                    docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}
+                    docker login -u ${dockerHubUser} -p ${dockerHubPassword}
                     cd ${WORKSPACE}/debian12-ansible
                     docker buildx build -t udienz/jenkins-slave:debian12-ansible
                 '''
                 }
             } //steps
         } // stage
-
 
         stage("Simulate the playbook") {
             when { expression { env.GIT_BRANCH != 'origin/main' } }
