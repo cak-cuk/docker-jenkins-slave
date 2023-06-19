@@ -12,7 +12,7 @@ pipeline {
   }
   environment {
       REPOS = 'cakcuk/ansible'
-      DISTRO = 'ubuntu2204 ubuntu2004 debian10 debian11 debian12 ubuntu2004-ansible ubuntu2204-ansible debian10-ansible debian11-ansible debian12-ansible'
+      DISTRO = 'ubuntu2004-ansible ubuntu2204-ansible debian10-ansible debian11-ansible debian12-ansible'
   }
     stages {
         stage("Print environment") {

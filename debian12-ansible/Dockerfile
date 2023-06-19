@@ -36,7 +36,7 @@ RUN export LC_ALL="en_US.UTF-8" \
     && export PATH="$HOME/bin:$HOME/.local/bin:$PATH" \
     && echo 'export PATH="$HOME/bin:$HOME/.local/bin:$PATH"' >> $HOME/.bashrc \
     && python3 -m pip install --no-cache-dir --upgrade pip \
-    && pip3 install --no-cache-dir ansible ansible-lint molecule-docker dnspython yamllint
+    && pip3 install --break-system-packages --no-cache-dir ansible ansible-lint molecule-docker dnspython yamllint
 
 USER root
 RUN mkdir -p /etc/ansible
