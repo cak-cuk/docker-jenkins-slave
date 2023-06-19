@@ -1,4 +1,4 @@
-FROM udienz/docker-ansible:ubuntu2004
+FROM udienz/jenkins-slave:ubuntu2004 
 LABEL maintainer="Mahyuddin Susanto"
 
 ARG user=jenkins
