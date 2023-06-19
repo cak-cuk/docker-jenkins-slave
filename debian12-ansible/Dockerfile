@@ -1,15 +1,8 @@
-FROM udienz/jenkins-slave:ubuntu2004
-LABEL maintainer="Mahyuddin Susanto"
+# Generated in Mon Jul 11 06:54:59 AM UTC 2022
+# This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node.
+FROM udienz/jenkins-slave:debian12
 
-ARG user=jenkins
-ARG group=jenkins
-ARG uid=1001
-ARG gid=1001
-ARG JENKINS_AGENT_HOME=/home/jenkins
-ENV TZ="UTC"
-ARG DEBIAN_FRONTEND=noninteractive
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-# See https://github.com/geerlingguy/docker-ubuntu2204-ansible/blob/master/Dockerfile
 
 RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime \
     && apt-get update \
@@ -22,12 +15,12 @@ RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # Terraform
-RUN apt-get update; apt-get install -y -q --no-install-recommends gnupg \
+RUN apt-get update; apt-get -y -q --no-install-recommends install gnupg software-properties-common \
     && wget -q -O- https://apt.releases.hashicorp.com/gpg | \
     gpg --dearmor | \
     tee /usr/share/keyrings/hashicorp-archive-keyring.gpg \
     && echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
-    https://apt.releases.hashicorp.com focal main" | \
+    https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
     tee /etc/apt/sources.list.d/hashicorp.list \
     && gpg --no-default-keyring \
     --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg \
@@ -35,7 +28,7 @@ RUN apt-get update; apt-get install -y -q --no-install-recommends gnupg \
     && apt-get update \
     && apt-get install -y -q --no-install-recommends terraform \
     && apt-get remove -y gnupg software-properties-common \
-    && apt-get clean -y && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
+    && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 USER jenkins
 RUN export LC_ALL="en_US.UTF-8" \
@@ -43,7 +36,7 @@ RUN export LC_ALL="en_US.UTF-8" \
     && export PATH="$HOME/bin:$HOME/.local/bin:$PATH" \
     && echo 'export PATH="$HOME/bin:$HOME/.local/bin:$PATH"' >> $HOME/.bashrc \
     && python3 -m pip install --no-cache-dir --upgrade pip \
-    && pip3 install --no-cache-dir ansible ansible-lint molecule-docker dnspython yamllint
+    && pip3 install --break-system-packages --no-cache-dir ansible ansible-lint molecule-docker dnspython yamllint
 
 USER root
 RUN mkdir -p /etc/ansible
