@@ -8,7 +8,7 @@ pipeline {
 	timestamps()
     ansiColor("xterm")
     buildDiscarder(logRotator(numToKeepStr: "100"))
-    timeout(time: 2, unit: "HOURS")
+    timeout(time: 4, unit: "HOURS")
   }
   environment {
       REPOS = 'cakcuk/ansible'
@@ -38,8 +38,8 @@ pipeline {
             } //steps
         } // stage
 
-    stage("Build debian12-ansible") {
-            when { expression { env.GIT_BRANCH != 'main' } }
+    stage("Build and push to docker") {
+            when { expression { env.GIT_BRANCH == 'main' } }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
