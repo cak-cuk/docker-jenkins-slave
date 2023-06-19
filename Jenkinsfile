@@ -28,7 +28,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
                     docker login -u ${dockerHubUser} -p ${dockerHubPassword}
-                    for distro in $$DISTRO
+                    for distro in $DISTRO
                         do
                             cd ${WORKSPACE}/$distro
                             docker buildx build -t udienz/jenkins-slave:$distro .
@@ -44,7 +44,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh '''
                     docker login -u ${dockerHubUser} -p ${dockerHubPassword}
-                    for distro in $$DISTRO
+                    for distro in $DISTRO
                         do
                             cd ${WORKSPACE}/$distro
                             docker buildx build -t udienz/jenkins-slave:$distro .
