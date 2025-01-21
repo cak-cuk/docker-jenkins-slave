@@ -56,7 +56,7 @@ jobs:
           - os: ubuntu2404-ansible
             codename: ubuntu-oracular-ansible
           - os: ubuntu2404
-            codename: ubuntu-oracular            
+            codename: ubuntu-oracular
           - os: debian10
             codename: debian-buster
           - os: debian11
